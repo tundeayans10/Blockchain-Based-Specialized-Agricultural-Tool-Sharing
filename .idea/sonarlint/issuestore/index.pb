@@ -9,3 +9,7 @@ T
 $tests/equipment-registration.test.ts,d/7/d7633dc7fbb756f51ee5cf3320302eb23da04f7f
 X
 (tests/maintenance-responsibility.test.ts,a/d/ad016ee7b48f87aa175a96db3c5673cc46e58de7
+R
+"contracts/seasonal-allocation.clar,e/9/e94f784e6feaa1adf90609c6f328124a72a0c3fc
+Q
+!tests/seasonal-allocation.test.ts,c/7/c78101996fbbef0faa7eec9b0aa8ee1093417728

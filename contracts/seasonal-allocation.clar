@@ -1,30 +1,74 @@
+;; Seasonal Allocation Contract
+;; Manages sharing based on different harvest times
 
-;; title: seasonal-allocation
-;; version:
-;; summary:
-;; description:
+(define-data-var last-allocation-id uint u0)
 
-;; traits
-;;
+(define-map allocations
+  { id: uint }
+  {
+    equipment-id: uint,
+    user: principal,
+    start-date: uint,
+    end-date: uint,
+    status: (string-ascii 20) ;; "scheduled", "active", "completed"
+  }
+)
 
-;; token definitions
-;;
+;; Request equipment allocation
+(define-public (request-allocation
+    (equipment-id uint)
+    (start-date uint)
+    (end-date uint)
+  )
+  (let
+    (
+      (new-id (+ (var-get last-allocation-id) u1))
+    )
+    (asserts! (< start-date end-date) (err u400))
 
-;; constants
-;;
+    (var-set last-allocation-id new-id)
 
-;; data vars
-;;
+    (map-set allocations
+      { id: new-id }
+      {
+        equipment-id: equipment-id,
+        user: tx-sender,
+        start-date: start-date,
+        end-date: end-date,
+        status: "scheduled"
+      }
+    )
 
-;; data maps
-;;
+    (ok new-id)
+  )
+)
 
-;; public functions
-;;
+;; Update allocation status
+(define-public (update-allocation-status
+    (allocation-id uint)
+    (status (string-ascii 20))
+  )
+  (let
+    (
+      (allocation (unwrap! (map-get? allocations { id: allocation-id }) (err u404)))
+    )
+    (asserts! (is-eq tx-sender (get user allocation)) (err u403))
 
-;; read only functions
-;;
+    (map-set allocations
+      { id: allocation-id }
+      (merge allocation { status: status })
+    )
 
-;; private functions
-;;
+    (ok true)
+  )
+)
 
+;; Get allocation details
+(define-read-only (get-allocation (allocation-id uint))
+  (map-get? allocations { id: allocation-id })
+)
+
+;; Get total allocation count
+(define-read-only (get-allocation-count)
+  (var-get last-allocation-id)
+)
