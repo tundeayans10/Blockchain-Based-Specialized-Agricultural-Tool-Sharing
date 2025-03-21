@@ -13,3 +13,7 @@ R
 "contracts/seasonal-allocation.clar,e/9/e94f784e6feaa1adf90609c6f328124a72a0c3fc
 Q
 !tests/seasonal-allocation.test.ts,c/7/c78101996fbbef0faa7eec9b0aa8ee1093417728
+T
+$contracts/training-verification.clar,7/f/7fa57a873c97c4a7f4768f5bbf326e13f4c75183
+S
+#tests/training-verification.test.ts,7/0/702bbf53df2870bceca497b9cdc6239a5d31de0a
